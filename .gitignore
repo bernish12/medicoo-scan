@@ -1,0 +1,19 @@
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+npm-debug.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+backend/venv/
+backend/.env
+
+# Mac
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
