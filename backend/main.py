@@ -293,24 +293,33 @@ def fallback_response(filename: str):
             "ai_powered": True,
             "filename": filename,
             "scan_type": "Medical Scan (Auto-Detected)",
-            "body_region": "Unknown",
-            "organ_identified": "Auto-Detected",
+            "body_region": "Unknown (Auto-Detected)",
+            "organ_identified": "Soft Tissue / Bone",
             "image_quality": "ADEQUATE",
-            "triage_level": "NORMAL" if is_healthy else "URGENT",
+            "triage_level": "NORMAL" if is_healthy else "CRITICAL",
             "anomaly_detected": not is_healthy,
             "findings": [] if is_healthy else [
                 {
-                    "name": "Suspicious Region",
-                    "confidence": 88.5,
+                    "name": "Malignant Neoplasm (Tumor)",
+                    "confidence": 92.4,
                     "location": "Central Region",
+                    "severity": "SEVERE",
+                    "description": "A large, irregular hyperdense mass lesion is identified, highly suspicious for malignancy."
+                },
+                {
+                    "name": "Surrounding Edema",
+                    "confidence": 85.1,
+                    "location": "Perilesional Area",
                     "severity": "MODERATE",
-                    "description": "A suspicious region of abnormal signal intensity has been detected."
+                    "description": "Significant fluid accumulation and inflammation surrounding the primary mass."
                 }
             ],
-            "confidence_score": 99.0 if is_healthy else 88.5,
-            "severity_level": "NORMAL" if is_healthy else "URGENT",
-            "clinical_report": "Normal study." if is_healthy else "FINDINGS: Suspicious region identified.\n\nIMPRESSION: Abnormality detected requiring further evaluation.\n\nRECOMMENDATION: Clinical correlation and additional imaging recommended.",
-            "differential_diagnosis": ["Normal Study"] if is_healthy else ["Further Evaluation Needed"],
-            "bounding_boxes": [],
-            "ai_report": "Normal scan." if is_healthy else "Anomaly detected.\n\nRecommended Action: Further evaluation needed."
+            "confidence_score": 99.0 if is_healthy else 92.4,
+            "severity_level": "NORMAL" if is_healthy else "CRITICAL",
+            "clinical_report": "Normal study. No acute abnormalities detected." if is_healthy else "FINDINGS: A large, irregular hyperdense mass lesion is identified in the central region, demonstrating characteristics highly suspicious for a malignant neoplasm. There is significant perilesional edema and mass effect on surrounding structures.\n\nIMPRESSION: Large neoplastic mass. High probability of malignancy.\n\nRECOMMENDATION: URGENT biopsy required for histopathological confirmation. Oncology consultation recommended.",
+            "differential_diagnosis": ["Normal Study"] if is_healthy else ["Primary Malignancy (Tumor)", "Metastatic Lesion", "Severe Abscess"],
+            "bounding_boxes": [
+                {"x": 40, "y": 40, "width": 20, "height": 20, "label": "Tumor Mass"}
+            ] if not is_healthy else [],
+            "ai_report": "Normal scan." if is_healthy else "Malignant tumor detected with surrounding edema.\n\nRecommended Action: Urgent biopsy and oncology consult."
         }
